@@ -75,7 +75,7 @@ class AnyStateITSupport:
         self.create_ui()
         
         # Add welcome message
-        self.add_system_message("Welcome to AnyState IT Support. How can I help you today?")
+        self.add_system_message("Welcome to AnyState IT Support. How can I help you today?\n\nYou can try clicking on one of the example queries above, or type your own question.")
     
     def get_current_user(self):
         # In a real Windows app, this would use Windows authentication
@@ -96,6 +96,30 @@ class AnyStateITSupport:
         self.user_label = tk.Label(header_frame, text=f"Welcome, {self.current_user}", 
                                   fg="white", bg="#003366", font=("Arial", 10))
         self.user_label.pack(anchor="w", pady=(5, 0))
+        
+        # Demo use cases menu
+        demo_label = tk.Label(header_frame, text="Try these examples:", 
+                             fg="white", bg="#003366", font=("Arial", 8))
+        demo_label.pack(anchor="w", pady=(5, 0))
+        
+        demo_frame = tk.Frame(header_frame, bg="#003366")
+        demo_frame.pack(anchor="w", fill="x", pady=(2, 0))
+        
+        demo_queries = [
+            "How do I reset my password?",
+            "I need to install new software",
+            "VPN connection issues",
+            "My computer is running slow",
+            "Email not working"
+        ]
+        
+        for query in demo_queries:
+            btn = tk.Button(demo_frame, text=query, 
+                          bg="#005A9E", fg="black", 
+                          relief="flat", borderwidth=0,
+                          command=lambda q=query: self.use_demo_query(q),
+                          font=("Arial", 8))
+            btn.pack(anchor="w", pady=2)
         
         # Chat area
         chat_frame = tk.Frame(self.root)
@@ -225,17 +249,38 @@ class AnyStateITSupport:
         msg = ChatMessage("IT Support", message, is_user=False)
         self.add_message_bubble(msg)
     
+    def use_demo_query(self, query):
+        """Handle clicking on a demo query button"""
+        self.message_input.delete("1.0", tk.END)
+        self.message_input.insert("1.0", query)
+        self.send_message()
+    
     def process_with_ai(self, message):
         # Simulate AI processing
         # In a real implementation, this would call Amazon Lex or another AI service
         message_lower = message.lower()
         
-        if "password reset" in message_lower:
+        if "password reset" in message_lower or "reset my password" in message_lower:
             response = "To reset your password, please visit the self-service portal at https://reset.anystate.gov or call the IT helpdesk at 555-123-4567."
+        
         elif "software" in message_lower or "install" in message_lower:
             response = "For software installation requests, please use the Software Request form in the Employee Portal. An IT technician will review and process your request."
-        elif "vpn" in message_lower or "remote" in message_lower:
+        
+        elif "vpn" in message_lower or "remote" in message_lower or "connection" in message_lower:
             response = "For VPN access or remote connectivity issues, please ensure you're using the latest AnyState VPN client. For installation instructions, visit https://vpn.anystate.gov"
+        
+        elif "slow" in message_lower or "performance" in message_lower:
+            response = "If your computer is running slow, try these steps:\n1. Restart your computer\n2. Close unnecessary applications\n3. Check for Windows updates\n4. Run a virus scan\n\nIf the problem persists, please contact IT support for further assistance."
+        
+        elif "email" in message_lower or "outlook" in message_lower:
+            response = "For email issues, please try:\n1. Check your internet connection\n2. Restart Outlook\n3. Verify your email settings\n4. Clear your Outlook cache\n\nFor persistent issues, contact the email support team at email-support@anystate.gov"
+        
+        elif "printer" in message_lower or "print" in message_lower or "scanning" in message_lower:
+            response = "For printer or scanner issues:\n1. Check if the device is powered on and connected\n2. Verify paper and ink/toner levels\n3. Restart the printer\n4. Reinstall printer drivers\n\nFor network printer issues, contact the print services team at print-support@anystate.gov"
+        
+        elif "account locked" in message_lower or "locked out" in message_lower:
+            response = "If your account is locked, please wait 15 minutes for it to automatically unlock, then try again with the correct password. If you continue to experience issues, contact the IT helpdesk at 555-123-4567."
+        
         else:
             response = "I'm not sure I understand your question. Would you like to speak with a live IT support agent?"
         
