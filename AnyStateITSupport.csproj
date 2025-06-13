@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>AnyStateITSupport</RootNamespace>
+    <AssemblyName>AnyStateITSupport</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Amazon.Connect.Client" Version="1.0.0" />
+    <PackageReference Include="AWSSDK.Connect" Version="3.7.0" />
+    <PackageReference Include="AWSSDK.ConnectParticipant" Version="3.7.0" />
+    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="6.0.0" />
+  </ItemGroup>
+
+</Project>
