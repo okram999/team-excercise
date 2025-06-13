@@ -36,8 +36,10 @@ class CallbackDialog(tk.Toplevel):
         button_frame = tk.Frame(self)
         button_frame.pack(pady=10, side=tk.BOTTOM, fill=tk.X)
         
-        tk.Button(button_frame, text="Cancel", width=10, command=self.cancel).pack(side=tk.RIGHT, padx=5)
-        tk.Button(button_frame, text="Request", width=10, command=self.request).pack(side=tk.RIGHT, padx=5)
+        tk.Button(button_frame, text="Cancel", width=10, command=self.cancel, 
+                 bg="#f0f0f0", fg="black").pack(side=tk.RIGHT, padx=5)
+        tk.Button(button_frame, text="Request", width=10, command=self.request,
+                 bg="#0078D7", fg="black").pack(side=tk.RIGHT, padx=5)
         
         # Wait for window to be closed
         self.wait_window()
@@ -125,7 +127,7 @@ class AnyStateITSupport:
         self.message_input.grid(row=0, column=0, sticky="ew", padx=(0, 5))
         self.message_input.bind("<Return>", self.on_enter_key)
         
-        send_button = tk.Button(input_frame, text="Send", bg="#0078D7", fg="white", 
+        send_button = tk.Button(input_frame, text="Send", bg="#0078D7", fg="black", 
                                command=self.send_message, width=10)
         send_button.grid(row=0, column=1, sticky="ns")
         
@@ -133,12 +135,15 @@ class AnyStateITSupport:
         buttons_frame = tk.Frame(input_frame)
         buttons_frame.grid(row=1, column=0, columnspan=2, sticky="w", pady=(10, 0))
         
+        # Fix button text color to ensure visibility on macOS
+        button_style = {"bg": "#0078D7", "fg": "black", "activebackground": "#005A9E", "activeforeground": "black"}
+        
         self.live_agent_button = tk.Button(buttons_frame, text="Request Live Agent", 
-                                         bg="#0078D7", fg="white", command=self.connect_to_live_agent)
+                                         command=self.connect_to_live_agent, **button_style)
         self.live_agent_button.pack(side=tk.LEFT, padx=(0, 10))
         
         callback_button = tk.Button(buttons_frame, text="Request Callback", 
-                                   bg="#0078D7", fg="white", command=self.request_callback)
+                                   command=self.request_callback, **button_style)
         callback_button.pack(side=tk.LEFT)
         
         # Configure canvas resize
