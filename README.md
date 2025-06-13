@@ -1,37 +1,55 @@
-# AnyState IT Desktop Support Application
+# AnyState IT Desktop Support Application (Python)
 
-A Windows desktop application that provides state employees with direct access to IT support through a chat interface, backed by Amazon Connect and AI-assisted responses.
+A Python desktop application that provides state employees with direct access to IT support through a chat interface, backed by Amazon Connect and AI-assisted responses.
 
 ## Features
 
 - AI-assisted IT support available 24/7
 - Live agent chat support during business hours (Monday to Friday, 9 AM to 5 PM)
 - Phone callback request option
-- Windows domain authentication for seamless user identification
+- Windows user identification
 - Integration with Amazon Connect for backend support
 
 ## Technical Overview
 
 This application is built using:
-- .NET 6.0 with WPF for the UI
-- Amazon Connect for chat and callback functionality
-- Windows domain authentication for user identification
+- Python 3 with Tkinter for the UI
+- boto3 for AWS Connect integration
+- Threading for simulating async operations
 
 ## Requirements
 
-- Windows 10 or later
-- .NET 6.0 Runtime
-- Domain-joined Windows computer
+- Python 3.6+
+- boto3 library
+- Windows 10 or later (for production use)
 - Access to AnyState's Amazon Connect instance
+
+## Installation
+
+1. Install required packages:
+   ```
+   pip install -r requirements.txt
+   ```
+
+2. Run the application:
+   ```
+   python anystate_it_support.py
+   ```
 
 ## Deployment
 
-The application is deployed via Group Policy to all domain-joined computers in the AnyState government network.
+For production deployment, the application can be packaged into an executable using PyInstaller:
 
-## Support
+```
+pip install pyinstaller
+pyinstaller --onefile --windowed anystate_it_support.py
+```
 
-For issues with the application, please contact the IT Support team at support@anystate.gov.
+The resulting executable can be deployed via Group Policy to all domain-joined computers in the AnyState government network.
 
 ## Security
 
-The application leverages existing security measures, including domain-joined computer authentication and integration with the state's current Amazon Connect instance.
+In production, the application should be configured to:
+- Use Windows domain authentication
+- Connect securely to AWS services
+- Store no sensitive information locally
